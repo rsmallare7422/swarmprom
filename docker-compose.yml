@@ -21,8 +21,25 @@ configs:
     file: ./prometheus/rules/swarm_task.rules.yml
   blackbox_exporter:
     file: ./blackbox-exporter/config/testdata/blackbox-exporter.yml
+  http_2xx:
+    file: ./blackbox-exporter/config/testdata/http_2xx.yml
 
 services:
+  blackbox-exporter:
+    image: prom/blackbox-exporter
+    networks:
+      - net
+    configs:
+      - source: blackbox_exporter
+        target: /config/blackbox.yml
+    deploy:
+      mode: global
+      resources:
+        limits:
+          memory: 128M
+        reservations:
+          memory: 64M
+          
   dockerd-exporter:
     image: stefanprodan/caddy
     networks:
@@ -163,6 +180,8 @@ services:
         target: /etc/prometheus/swarm_node.rules.yml
       - source: task_rules
         target: /etc/prometheus/swarm_task.rules.yml
+      - source: http_2xx
+        target: /etc/prometheus/http_2xx.yml
     deploy:
       mode: replicated
       replicas: 1
