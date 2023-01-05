@@ -38,3 +38,13 @@
     tls off
 }
 
+:9100 {
+    proxy / blackbox-exporter:9100 {
+            transparent
+            websocket
+        }
+
+    errors stderr
+    tls off
+}
+
