@@ -19,6 +19,8 @@ configs:
     file: ./prometheus/rules/swarm_node.rules.yml
   task_rules:
     file: ./prometheus/rules/swarm_task.rules.yml
+  blackbox_exporter:
+    file: ./blackbox-exporter/config/testdata/blackbox-exporter.yml
 
 services:
   dockerd-exporter:
