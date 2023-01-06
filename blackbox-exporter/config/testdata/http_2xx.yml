@@ -2,5 +2,5 @@
     module: http_2xx
     team: rmteam
   targets:
-    - google.com
-    - amazon.com
+    - http://www.google.com/
+    - http://www.amazon.com/
