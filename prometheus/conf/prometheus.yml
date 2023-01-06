@@ -42,9 +42,10 @@ scrape_configs:
       port: 9100
   
   - job_name: 'blackbox'
+    metrics_path: /probe
     dns_sd_configs:
-    - names:
-      - 'tasks.blackbox-exporter'
+    - files:
+      - '/etc/prometheus/http_2xx.yml'
       type: 'A'
       port: 9115
 
