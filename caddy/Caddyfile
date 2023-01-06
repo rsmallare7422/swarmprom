@@ -39,7 +39,17 @@
 }
 
 :9100 {
-    proxy / blackbox-exporter:9100 {
+    proxy / node-exporter:9100 {
+            transparent
+            websocket
+        }
+
+    errors stderr
+    tls off
+}
+
+:9115 {
+    proxy / blackbox-exporter:9115 {
             transparent
             websocket
         }
