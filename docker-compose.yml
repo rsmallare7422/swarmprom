@@ -20,11 +20,12 @@ configs:
   task_rules:
     file: ./prometheus/rules/swarm_task.rules.yml
   blackbox_exporter:
-    file: ./blackbox-exporter/config/testdata/blackbox-exporter.yml
+    file: ./blackbox-exporter/config/testdata/blackbox.yml
   http_2xx:
     file: ./blackbox-exporter/config/testdata/http_2xx.yml
 
 services:
+
   blackbox-exporter:
     image: prom/blackbox-exporter
     networks:
@@ -32,13 +33,50 @@ services:
     configs:
       - source: blackbox_exporter
         target: /config/blackbox.yml
+    command:
+      '--config.file=/config/blackbox.yml'
     deploy:
+      restart_policy:
+        condition: any
       mode: global
+      placement:
+        constraints: 
+          - node.role = worker
       resources:
         limits:
           memory: 128M
         reservations:
           memory: 64M
+
+  prometheus:
+    image: stefanprodan/swarmprom-prometheus:v2.5.0
+    networks:
+      - net
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention=${PROMETHEUS_RETENTION:-24h}'
+    volumes:
+      - prometheus:/prometheus
+    configs:
+      - source: node_rules
+        target: /etc/prometheus/swarm_node.rules.yml
+      - source: task_rules
+        target: /etc/prometheus/swarm_task.rules.yml
+      - source: http_2xx
+        target: /etc/prometheus/http_2xx.yml
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+      resources:
+        limits:
+          memory: 2048M
+        reservations:
+          memory: 128M
+
           
   dockerd-exporter:
     image: stefanprodan/caddy
@@ -164,35 +202,6 @@ services:
           memory: 128M
         reservations:
           memory: 64M
-
-  prometheus:
-    image: stefanprodan/swarmprom-prometheus:v2.5.0
-    networks:
-      - net
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-      - '--storage.tsdb.retention=${PROMETHEUS_RETENTION:-24h}'
-    volumes:
-      - prometheus:/prometheus
-    configs:
-      - source: node_rules
-        target: /etc/prometheus/swarm_node.rules.yml
-      - source: task_rules
-        target: /etc/prometheus/swarm_task.rules.yml
-      - source: http_2xx
-        target: /etc/prometheus/http_2xx.yml
-    deploy:
-      mode: replicated
-      replicas: 1
-      placement:
-        constraints:
-          - node.role == manager
-      resources:
-        limits:
-          memory: 2048M
-        reservations:
-          memory: 128M
 
   caddy:
     image: stefanprodan/caddy
