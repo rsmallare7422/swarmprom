@@ -52,6 +52,8 @@ services:
 
   prometheus:
     image: stefanprodan/swarmprom-prometheus:v2.5.0
+    volumes:
+      - prometheus:/prometheus
     networks:
       - net
     command:
