@@ -45,7 +45,7 @@ scrape_configs:
     metrics_path: /probe
     dns_sd_configs:
     - files:
-      - '/etc/prometheus/prometheus.yml'
+      - '/etc/prometheus/blackbox/targets/*.yml'
       type: 'A'
       port: 9115
 
