@@ -25,6 +25,8 @@ configs:
     file: ./blackbox-exporter/config/testdata/http_2xx.yml
   prometheus_yml:
     file: ./prometheus/conf/prometheus.yml
+  my_config:
+    external: true
 
 services:
 
@@ -35,6 +37,7 @@ services:
     configs:
       - source: blackbox_exporter
         target: /config/blackbox.yml
+      - source: my_config 
     command:
       '--config.file=/config/blackbox.yml'
     deploy:
@@ -69,6 +72,7 @@ services:
         target: /etc/prometheus/swarm_task.rules.yml
       - source: http_2xx
         target: /etc/prometheus/blackbox/targets/http_2xx.yml
+      - source: my_config
     deploy:
       mode: replicated
       replicas: 1
