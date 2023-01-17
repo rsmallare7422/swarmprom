@@ -27,6 +27,7 @@ configs:
     file: ./prometheus/conf/prometheus.yml
   my_config:
     external: true
+    name: rm_config
 
 services:
 
@@ -37,7 +38,8 @@ services:
     configs:
       - source: blackbox_exporter
         target: /config/blackbox.yml
-      - source: my_config 
+      - source: my_config
+        target: my_config
     command:
       '--config.file=/config/blackbox.yml'
     deploy:
