@@ -25,9 +25,9 @@ configs:
     file: ./blackbox-exporter/config/testdata/blackbox.yml
   http_2xx:
     file: ./blackbox-exporter/config/testdata/http_2xx.yml
-  my_config:
+  new_config:
     external: true
-    name: rm_config
+    name: new_config
 
 services:
 
@@ -38,8 +38,8 @@ services:
     configs:
       - source: blackbox_exporter
         target: /config/blackbox.yml
-      - source: my_config
-        target: /config/my_config
+      - source: new_config
+        target: /config/blackbox_config
     command:
       '--config.file=/config/blackbox.yml'
     deploy:
