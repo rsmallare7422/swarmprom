@@ -79,7 +79,6 @@ services:
         target: /etc/prometheus/swarm_task.rules.yml
       - source: http_2xx
         target: /etc/prometheus/blackbox/targets/http_2xx.yml
-      - source: my_config
     deploy:
       mode: replicated
       replicas: 1
