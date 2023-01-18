@@ -26,7 +26,7 @@ configs:
     #Use external pre-defined configuration. blackbox_exporter
     external: true
     #just for demo, we'll use initial_blackbox_exporter config name although this is not the case in real cases.
-    name: initial_blackbox_exporter_config_${INDEX:?err}
+    name: blackbox_exporter_${INDEX:?err}
     
   http_2xx:
     file: ./blackbox-exporter/config/testdata/http_2xx.yml
