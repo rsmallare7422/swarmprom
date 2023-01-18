@@ -22,12 +22,17 @@ configs:
   dockerd_config:
     file: ./dockerd-exporter/Caddyfile
   blackbox_exporter:
-    file: ./blackbox-exporter/config/testdata/blackbox.yml
+    #file: ./blackbox-exporter/config/testdata/blackbox.yml
+    #Use external pre-defined configuration. blackbox_exporter
+    external: true
+    #just for demo, we'll use initial_blackbox_exporter config name although this is not the case in real cases.
+    name: initial_blackbox_exporter_config
+    
   http_2xx:
     file: ./blackbox-exporter/config/testdata/http_2xx.yml
-  new_config:
+  the_config:
     external: true
-    name: new_config
+    name: config_${INDEX:?err}
 
 services:
 
@@ -38,7 +43,7 @@ services:
     configs:
       - source: blackbox_exporter
         target: /config/blackbox.yml
-      - source: new_config
+      - source: the_config
         target: /config/blackbox_config
     command:
       '--config.file=/config/blackbox.yml'
