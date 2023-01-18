@@ -73,8 +73,8 @@ services:
       - '--storage.tsdb.path=/prometheus'
       - '--storage.tsdb.retention=${PROMETHEUS_RETENTION:-24h}'
     configs:
-      - source: prometheus_yml
-        target: /etc/prometheus/prometheus.yml
+      #- source: prometheus_yml
+      #  target: /etc/prometheus/prometheus.yml
       - source: task_rules
         target: /etc/prometheus/swarm_task.rules.yml
       - source: http_2xx
