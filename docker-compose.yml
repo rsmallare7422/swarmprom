@@ -26,13 +26,10 @@ configs:
     #Use external pre-defined configuration. blackbox_exporter
     external: true
     #just for demo, we'll use initial_blackbox_exporter config name although this is not the case in real cases.
-    name: blackbox_exporter_${INDEX:?err}
-    
+    name: BLACKBOX_EXPORTER_${COMMIT_HASH:?err}
   http_2xx:
     file: ./blackbox-exporter/config/testdata/http_2xx.yml
-  the_config:
-    external: true
-    name: config_${INDEX:?err}
+
 
 services:
 
@@ -43,8 +40,6 @@ services:
     configs:
       - source: blackbox_exporter
         target: /config/blackbox.yml
-      - source: the_config
-        target: /config/blackbox_config
     command:
       '--config.file=/config/blackbox.yml'
     deploy:
