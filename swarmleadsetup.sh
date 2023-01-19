@@ -12,9 +12,7 @@ export GODEBUG=x509ignoreCN=0
 # Set ENV GIT COMMIT HASH var
 export COMMIT_HASH=`git --git-dir=.git rev-parse --short=8 HEAD`
 
-# Create config files
-
-#blackbox.yml config
+# Create blackbox.yml config file
 docker config create BLACKBOX_EXPORTER_${COMMIT_HASH} ./blackbox-exporter/config/testdata/blackbox.yml
 
 
