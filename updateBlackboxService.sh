@@ -20,4 +20,5 @@ docker config create BLACKBOX_EXPORTER_${COMMIT_HASH} ./blackbox-exporter/config
 # Update the service
 docker service update --force \
    --config-add source=BLACKBOX_EXPORTER_${COMMIT_HASH},target=/config/blackbox.yml \
-   --config-rm ${BLACKBOX_EXPORTER_OLD} 
+   --config-rm ${BLACKBOX_EXPORTER_OLD} \
+   thd_blackbox-exporter
