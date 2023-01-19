@@ -4,8 +4,8 @@
 #
 # NOTE: The COMMIT_HASH is needed so it is imperative that this is executed inside the cloned repo directory.
 #
-shopt -s expand_aliases
-source $HOME/.env
+# shopt -s expand_aliases
+# source $HOME/.env
 export GODEBUG=x509ignoreCN=0
 
 # Set ENV GIT COMMIT HASH var
